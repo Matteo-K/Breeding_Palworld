@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="style.css">
+<title>Palworld – Breeding Dex</title>
+</head>
+
+<body>
+<header class="site-header">
+  <div class="logo">🐾 Palworld Dex</div>
+
+  <nav>
+    <a href="index.html">Accueil</a>
+    <a href="breeding.html">Breeding</a>
+    <a href="types.html">Types</a>
+    <a href="stats.html">Stats</a>
+    <a href="about.html">À propos</a>
+  </nav>
+</header>
+
+<div class="detail-page" id="pals"></div>
+
+<script>
+
+  function show(data){
+    const box = document.getElementById("pals");
+    let params = new URLSearchParams(document.location.search);
+    let name = params.get("name");
+    console.log(name)
+    const filtered = data.filter(pal =>
+      pal.name.toLowerCase() == name.toLowerCase()
+    );
+
+    filtered.forEach(pal => {
+      const el = document.createElement("div");
+      el.className = "detail-page";
+
+      document.title = pal.name;
+
+      el.innerHTML = `
+        <div class="detail-grid">
+          <!-- Colonne gauche : infos Pal -->
+          <div class="pal-info">
+            <div class="hero">
+              <img src="${pal.imageWiki}" alt="${pal.name}">
+              <div class="hero-info">
+                <h1>${pal.name}</h1>
+                <div class="types">
+                  ${pal.types.map(t => `
+                    <div class="type">
+                      <img src="${t.image}" width="20">
+                      ${t.name}
+                    </div>
+                  `).join("")}
+                </div>
+                <p class="desc">${pal.description}</p>
+              </div>
+            </div>
+
+            <div class="sections">
+              <div class="box">
+                <h3>🐣 Breeding</h3>
+                <div>Rank: ${pal.breeding.rank}</div>
+                <div>Order: ${pal.breeding.order}</div>
+                <div>Child eligible: ${pal.breeding.child_eligble}</div>
+                <div>Male chance: ${pal.breeding.male_probability}%</div>
+              </div>
+
+              <div class="box">
+                <h3>📊 Stats</h3>
+                <div>HP: ${pal.stats.hp}</div>
+                <div>Defense: ${pal.stats.defense}</div>
+                <div>Melee: ${pal.stats.attack.melee}</div>
+                <div>Ranged: ${pal.stats.attack.ranged}</div>
+                <div>Run speed: ${pal.stats.speed.run}</div>
+                <div>Stamina: ${pal.stats.stamina}</div>
+              </div>
+
+              <div class="box">
+                <h3>🎁 Drops</h3>
+                ${pal.drops.map(d => `<div>${d}</div>`).join("")}
+              </div>
+
+              <div class="box">
+                <h3>✨ Aura</h3>
+                <strong>${pal.aura.name}</strong>
+                <p>${pal.aura.description}</p>
+              </div>
+            </div>
+
+            <div class="skills-section">
+              <h2>⚔️ Skills</h2>
+              <div class="skills-grid">
+                ${pal.skills.map(s => `
+                  <div class="skill">
+                    <strong>Lv ${s.level} – ${s.name}</strong>
+                    <div>Type: ${s.type}</div>
+                    <div>Power: ${s.power}</div>
+                    <div>Cooldown: ${s.cooldown}s</div>
+                    <p>${s.description}</p>
+                  </div>
+                `).join("")}
+              </div>
+            </div>
+          </div>
+
+          <!-- Colonne droite : Maps -->
+          <div class="pal-maps">
+            <h3>🗺️ Maps d'apparition</h3>
+            <div class="map-box">
+              <h4>Day</h4>
+              <img src="${pal.maps.day}" alt="Day map">
+            </div>
+            <div class="map-box">
+              <h4>Night</h4>
+              <img src="${pal.maps.night}" alt="Night map">
+            </div>
+          </div>
+        </div>
+      `;
+
+      box.appendChild(el);
+    });
+  }
+
+  async function loadData() {
+    const res = await fetch('data/palworld.json');
+    const data = await res.json();
+    show(data);
+  }
+
+  loadData()
+</script>
+
+</body>
+</html>

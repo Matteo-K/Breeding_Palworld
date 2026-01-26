@@ -1,0 +1,234 @@
+body{
+  font-family:system-ui, sans-serif;
+  background:#0f172a;
+  color:#e5e7eb;
+  margin:0;
+  padding:20px;
+}
+
+/* Page d'acueil */
+
+input[type="text"]{
+  width:100%;
+  max-width:360px;
+  padding:12px 14px;
+  margin:18px 0 26px;
+  background:#020617;
+  color:#e5e7eb;
+  border:2px solid #1e293b;
+  border-radius:14px;
+  outline:none;
+  font-size:1em;
+  transition:.2s ease;
+  box-shadow:0 4px 12px rgba(0,0,0,.4);
+  display:block;
+  margin-left:auto;
+  margin-right:auto;
+}
+
+input::placeholder{
+  color:#94a3b8;
+}
+
+input[type="text"]:focus{
+  border-color:#38bdf8;
+  box-shadow:0 0 0 3px rgba(56,189,248,.25);
+  background:#020617;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
+  gap:20px;
+}
+
+.card{
+  background:#1e293b;
+  border-radius:14px;
+  padding:14px;
+  text-align:center;
+  box-shadow:0 6px 16px rgba(0,0,0,.4);
+  transition:.2s;
+}
+
+.card a{
+  display:block;
+  color:inherit;
+  text-decoration:none;
+}
+
+.card a:hover{
+  transform:scale(1.03);
+  transition:.2s;
+}
+
+
+.card:hover{
+  transform:translateY(-4px);
+}
+
+.card img{
+  width:100%;
+  height:180px;
+  object-fit:contain;
+}
+
+.name{
+  font-size:1.4em;
+  margin:8px 0;
+  font-weight:600;
+}
+
+.types{
+  display:flex;
+  justify-content:center;
+  gap:6px;
+  margin-bottom:10px;
+  height: 40px;
+}
+
+.types img {
+  width: 30px !important;
+}
+
+.type{
+  background:#334155;
+  padding:4px 8px;
+  border-radius:10px;
+  display:flex;
+  align-items:center;
+  gap:4px;
+  font-size:.8em;
+}
+
+.breeding{
+  background:#0f172a;
+  border-radius:10px;
+  padding:10px;
+  font-size:.85em;
+  text-align:left;
+}
+
+.breeding span{
+  color:#38bdf8;
+}
+
+.site-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  background:#020617;
+  padding:14px 24px;
+  border-radius:14px;
+  margin-bottom:24px;
+  box-shadow:0 6px 16px rgba(0,0,0,.5);
+}
+
+.logo{
+  font-size:1.5em;
+  font-weight:700;
+  color:#38bdf8;
+}
+
+.site-header nav{
+  display:flex;
+  gap:18px;
+}
+
+.site-header nav a{
+  color:#e5e7eb;
+  text-decoration:none;
+  font-weight:500;
+  position:relative;
+}
+
+.site-header nav a::after{
+  content:"";
+  position:absolute;
+  bottom:-4px;
+  left:0;
+  width:0;
+  height:2px;
+  background:#38bdf8;
+  transition:.2s;
+}
+
+.site-header nav a:hover::after{
+  width:100%;
+}
+
+/* mobile */
+@media (max-width:600px){
+  .site-header{
+    flex-direction:column;
+    gap:12px;
+  }
+}
+
+
+/* Page détails */
+
+.detail-page{
+  max-width:1200px;
+  margin:auto;
+  padding:20px;
+}
+
+.detail-grid{
+  display:grid;
+  grid-template-columns: 1fr 2fr; /* gauche 1/3, droite 2/3 */
+  gap:30px;
+}
+
+/* Colonne gauche Pal info */
+.pal-info{
+  display:flex;
+  flex-direction:column;
+  gap:20px;
+}
+
+/* Colonne droite Maps */
+.pal-maps{
+  display:flex;
+  flex-direction:column;
+  gap:20px;
+}
+
+.pal-maps img{
+  width:100%;
+  border-radius:12px;
+  object-fit:contain;
+}
+
+.map-box h4{
+  margin:0 0 6px;
+  color:#38bdf8;
+}
+
+/* Skills et sections existants */
+.skills-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+  gap:12px;
+}
+
+.skill, .box{
+  background:#1e293b;
+  padding:12px;
+  border-radius:12px;
+  box-shadow:0 4px 10px rgba(0,0,0,.3);
+  color:#e5e7eb;
+}
+
+.types{
+  display:flex;
+  gap:6px;
+  margin:6px 0;
+}
+
+/* Mobile responsive */
+@media (max-width:900px){
+  .detail-grid{
+    grid-template-columns:1fr; /* tout en colonne */
+  }
+}

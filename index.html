@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Palworld – Breeding Dex</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+<header class="site-header">
+  <h1 class="logo">🐾 Palworld</h1>
+
+  <nav>
+    <a href="index.html">Accueil</a>
+    <a href="breeding.html">Breeding</a>
+    <a href="types.html">Types</a>
+    <a href="stats.html">Stats</a>
+    <a href="about.html">À propos</a>
+  </nav>
+</header>
+<input type="text" name="" id="" placeholder="Recherche">
+<div class="grid" id="pals"></div>
+
+<script>
+  const input = document.querySelector("input");
+
+  function show(data){
+    const box = document.getElementById("pals");
+    box.innerHTML = ""
+    const filtered = data.filter(pal =>
+      pal.name.toLowerCase().includes(input.value.toLowerCase())
+    );
+
+    filtered.forEach(pal => {
+      const el = document.createElement("div");
+      el.className = "card";
+
+      el.innerHTML = `
+        <a href="pal.html?name=${encodeURIComponent(pal.name.toLowerCase())}">
+          <img src="${pal.imageWiki}" alt="${pal.name}">
+
+          <div class="name">${pal.name}</div>
+
+          <div class="types">
+            ${pal.types.map(t => `
+              <div class="type">
+                <img src="${t.image}" width="18">
+                ${t.name}
+              </div>
+            `).join("")}
+          </div>
+
+          <div class="breeding">
+            <div>Rank : <span>${pal.breeding.rank}</span></div>
+            <div>Order : <span>${pal.breeding.order}</span></div>
+            <div>Child eligible : <span>${pal.breeding.child_eligble}</span></div>
+            <div>Male chance : <span>${pal.breeding.male_probability}%</span></div>
+          </div>
+        </a>
+      `;
+
+      box.appendChild(el);
+    });
+
+  }
+
+  async function loadData() {
+    const res = await fetch('data/palworld.json');
+    const data = await res.json();
+    show(data);
+  }
+
+  input.addEventListener("input", loadData)
+  loadData();
+
+</script>
+
+</body>
+</html>
