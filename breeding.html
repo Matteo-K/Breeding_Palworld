@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <label for="parent1" id="labelParent1">Pal</label>
+  <input type="number" name="parent1" id="parent1">
+  <label for="parent2" id="labelParent2">Pal</label>
+  <input type="number" name="parent2" id="parent2">
+  <div id="result"></div>
+  <script src="script/Pals.js"></script>
+  <script>
+    const result = document.getElementById("result")
+    const parent1 = document.getElementById("parent1")
+    const parent2 = document.getElementById("parent2")
+    const labelParent1 = document.getElementById("labelParent1")
+    const labelParent2 = document.getElementById("labelParent2")
+
+    async function loadData() {
+      const res = await fetch('data/palworld.json');
+      const data = await res.json();
+      breeding(data);
+    }
+
+    function getValue(data, label, input) {
+      const value = data[input.value] ?? {};
+      label.textContent = value ? value.name : "Pal"
+      return value;
+    }
+
+    function breeding(data) {
+      const parentEntity1 = getValue(data, labelParent1, parent1)
+      const parentEntity2 = getValue(data, labelParent2, parent2)
+      const nearPowerChild = parentEntity1 && parentEntity2 
+        ? Math.floor((parentEntity1.breeding.rank + parentEntity2.breeding.rank + 1) / 2) 
+        : 0
+      ;
+
+      const palArray = Object.values(data);
+      const child = palArray.reduce((closet, pal) => {
+        return Math.abs(pal.breeding.rank - nearPowerChild) < Math.abs(closet.breeding.rank - nearPowerChild) 
+          ? pal : closet
+        }, palArray[0]);
+      
+      result.innerHTML = `
+        <figure>
+          <img src='${child.image}' alt='${child.name}' title='${child.name}'
+          <figcaption>
+            ${child.name}
+          </figcaption>
+        </figure>
+      `;
+    }
+
+    parent1.addEventListener("input", loadData)
+    parent2.addEventListener("input", loadData)
+
+    loadData()
+  </script>
+</body>
+</html>

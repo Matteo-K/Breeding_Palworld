@@ -27,102 +27,114 @@
   function show(data){
     const box = document.getElementById("pals");
     let params = new URLSearchParams(document.location.search);
-    let name = params.get("name");
-    console.log(name)
-    const filtered = data.filter(pal =>
-      pal.name.toLowerCase() == name.toLowerCase()
-    );
+    let id = params.get("id");
+    const pal = data[id] ?? null
+    const el = document.createElement("div");
 
-    filtered.forEach(pal => {
-      const el = document.createElement("div");
-      el.className = "detail-page";
-
+    if (pal) {
+      el.className = "detail-grid";
       document.title = pal.name;
 
       el.innerHTML = `
-        <div class="detail-grid">
-          <!-- Colonne gauche : infos Pal -->
-          <div class="pal-info">
-            <div class="hero">
-              <img src="${pal.imageWiki}" alt="${pal.name}">
-              <div class="hero-info">
-                <h1>${pal.name}</h1>
-                <div class="types">
-                  ${pal.types.map(t => `
-                    <div class="type">
-                      <img src="${t.image}" width="20">
-                      ${t.name}
-                    </div>
-                  `).join("")}
-                </div>
-                <p class="desc">${pal.description}</p>
-              </div>
-            </div>
+        <!-- Colonne gauche : infos Pal -->
+        <div class="pal-info">
 
-            <div class="sections">
-              <div class="box">
-                <h3>🐣 Breeding</h3>
-                <div>Rank: ${pal.breeding.rank}</div>
-                <div>Order: ${pal.breeding.order}</div>
-                <div>Child eligible: ${pal.breeding.child_eligble}</div>
-                <div>Male chance: ${pal.breeding.male_probability}%</div>
-              </div>
-
-              <div class="box">
-                <h3>📊 Stats</h3>
-                <div>HP: ${pal.stats.hp}</div>
-                <div>Defense: ${pal.stats.defense}</div>
-                <div>Melee: ${pal.stats.attack.melee}</div>
-                <div>Ranged: ${pal.stats.attack.ranged}</div>
-                <div>Run speed: ${pal.stats.speed.run}</div>
-                <div>Stamina: ${pal.stats.stamina}</div>
-              </div>
-
-              <div class="box">
-                <h3>🎁 Drops</h3>
-                ${pal.drops.map(d => `<div>${d}</div>`).join("")}
-              </div>
-
-              <div class="box">
-                <h3>✨ Aura</h3>
-                <strong>${pal.aura.name}</strong>
-                <p>${pal.aura.description}</p>
-              </div>
-            </div>
-
-            <div class="skills-section">
-              <h2>⚔️ Skills</h2>
-              <div class="skills-grid">
-                ${pal.skills.map(s => `
-                  <div class="skill">
-                    <strong>Lv ${s.level} – ${s.name}</strong>
-                    <div>Type: ${s.type}</div>
-                    <div>Power: ${s.power}</div>
-                    <div>Cooldown: ${s.cooldown}s</div>
-                    <p>${s.description}</p>
+          <!-- Hero -->
+          <div class="hero">
+            <img src="${pal.imageWiki}" alt="${pal.name}">
+            <div class="hero-info">
+              <h1>${pal.name}</h1>
+              <div class="types">
+                ${pal.types.map(t => `
+                  <div class="type">
+                    <img src="${t.image}" width="20">
+                    ${t.name}
                   </div>
                 `).join("")}
               </div>
+              <p class="desc">${pal.description}</p>
             </div>
           </div>
 
-          <!-- Colonne droite : Maps -->
-          <div class="pal-maps">
-            <h3>🗺️ Maps d'apparition</h3>
-            <div class="map-box">
-              <h4>Day</h4>
-              <img src="${pal.maps.day}" alt="Day map">
+          <!-- Breeding -->
+          <div class="section breeding-section">
+            <h2>🐣 Breeding</h2>
+            <div>Rank: ${pal.breeding.rank}</div>
+            <div>Order: ${pal.breeding.order}</div>
+            <div>Child eligible: ${pal.breeding.child_eligble}</div>
+            <div>Male chance: ${pal.breeding.male_probability}%</div>
+          </div>
+
+          <!-- Stats -->
+          <div class="section stats-section">
+            <h2>📊 Stats</h2>
+            <div>HP: ${pal.stats.hp}</div>
+            <div>Defense: ${pal.stats.defense}</div>
+            <div>Melee: ${pal.stats.attack.melee}</div>
+            <div>Ranged: ${pal.stats.attack.ranged}</div>
+            <div>Run speed: ${pal.stats.speed.run}</div>
+            <div>Stamina: ${pal.stats.stamina}</div>
+          </div>
+
+          <!-- Drops -->
+          <div class="section drops-section">
+            <h2>🎁 Drops</h2>
+            ${pal.drops.map(d => `<div>${d}</div>`).join("")}
+          </div>
+
+          <!-- Aura -->
+          <div class="section aura-section">
+            <h2>✨ Aura</h2>
+            <strong>${pal.aura.name}</strong>
+            <p>${pal.aura.description}</p>
+          </div>
+
+          <!-- Skills -->
+          <div class="section skills-section">
+            <h2>⚔️ Skills</h2>
+            <div class="skills-grid">
+              ${pal.skills.map(s => `
+                <div class="skill">
+                  <strong>Lv ${s.level} – ${s.name}</strong>
+                  <div>Type: ${s.type}</div>
+                  <div>Power: ${s.power}</div>
+                  <div>Cooldown: ${s.cooldown}s</div>
+                  <p>${s.description}</p>
+                </div>
+              `).join("")}
             </div>
-            <div class="map-box">
-              <h4>Night</h4>
-              <img src="${pal.maps.night}" alt="Night map">
-            </div>
+          </div>
+
+        </div>
+
+        <!-- Colonne droite : Maps -->
+        <div class="pal-maps">
+          <h2>🗺️ Maps d'apparition</h2>
+          <div class="map-box">
+            <h4>Day</h4>
+            <img src="${pal.maps.day}" alt="Day map">
+          </div>
+          <div class="map-box">
+            <h4>Night</h4>
+            <img src="${pal.maps.night}" alt="Night map">
           </div>
         </div>
       `;
+    } else {
+      el.className = "not-found";
+      document.title = "Pal non trouvé";
 
-      box.appendChild(el);
-    });
+      el.innerHTML = `
+        <div class="not-found-box">
+          <h1>❌ Pal non trouvé</h1>
+          <p>Le Pal que vous recherchez n'existe pas.</p>
+          <a href="index.html" class="back-link">← Retour à la liste</a>
+        </div>
+      `;
+    }
+
+    box.appendChild(el);
+
   }
 
   async function loadData() {

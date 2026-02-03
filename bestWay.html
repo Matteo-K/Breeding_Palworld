@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Pal Breeding Tree</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+  <h1>🌳 Pal Breeding Tree</h1>
+
+  <div class="controls">
+    <div>
+      <label>Pals de départ (1 à 4)</label>
+      <select id="startPals" multiple></select>
+    </div>
+
+    <div>
+      <label>Pal cible</label>
+      <select id="targetPal"></select>
+    </div>
+  </div>
+
+  <button id="run">Générer l’arbre</button>
+
+  <div id="tree"></div>
+</div>
+
+<script src="script/Pals.js"></script>
+<script src="script/app.js"></script>
+</body>
+</html>

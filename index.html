@@ -23,13 +23,14 @@
 <input type="text" name="" id="" placeholder="Recherche">
 <div class="grid" id="pals"></div>
 
+<script src="script/Pals.js"></script>
 <script>
   const input = document.querySelector("input");
 
   function show(data){
     const box = document.getElementById("pals");
     box.innerHTML = ""
-    const filtered = data.filter(pal =>
+    const filtered = Object.values(data).filter(pal =>
       pal.name.toLowerCase().includes(input.value.toLowerCase())
     );
 
@@ -38,7 +39,7 @@
       el.className = "card";
 
       el.innerHTML = `
-        <a href="pal.html?name=${encodeURIComponent(pal.name.toLowerCase())}">
+        <a href="pal.html?id=${encodeURIComponent(pal.id)}">
           <img src="${pal.imageWiki}" alt="${pal.name}">
 
           <div class="name">${pal.name}</div>
